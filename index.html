@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch-demo</title>
+    <script>
+      // getInfo() - hämtar infomation från en server
+      // och lägger in informationen i result-div.
+      async function getInfo() {
+        let resultDiv = document.getElementById("result-div")
+        resultDiv.innerText = ""
+
+        let query = document.getElementById("search").value
+        let result = await fetch("search.php?q=" + query) // gör ett asynkront anrop till search.php och väntar på svaret.
+        let json = await result.json() // gör JSON av svaret
+
+        // Eftersom svaret är en array så kan vi loopa igenom den och skriva ut resultatet
+        // i result-div.
+        json.forEach(function (result) {
+          resultDiv.insertAdjacentHTML(
+            "beforeend",
+            `${result.id} ${result.name} <br>  `
+          )
+        })
+        return false
+      }
+    </script>
+  </head>
+
+  <body>
+    <input type="text" name="search" id="search" />
+    <button onclick="getInfo()">Sök</button>
+    <h2>Resultat</h2>
+    <div id="result-div"></div>
+  </body>
+  <script>
+    /*
+      För att bygga en enkel typeahead kan man hämta förslag från
+      servern när en användare skriver i textfältet.
+    */
+
+    // let searchText = document.getElementById("search")
+    // searchText.addEventListener("keyup", function (e) {
+    //   console.log(searchText.value.length)
+    //   if (searchText.value.length >= 3) {
+    //     getInfo()
+    //   }
+    // })
+  </script>
+</html>
